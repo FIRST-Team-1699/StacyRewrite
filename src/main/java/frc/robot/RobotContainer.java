@@ -5,18 +5,21 @@
 package frc.robot;
 
 import java.io.File;
-import java.nio.file.FileSystem;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.team1699.commands.AbsoluteDriveAdv;
+import frc.team1699.commands.AimHeadingToSpeaker;
+import frc.team1699.commands.AimPivotToSpeaker;
 import frc.team1699.commands.IntakeCommand;
 import frc.team1699.commands.ShootCommand;
 import frc.team1699.subsystems.IndexerSubsystem;
 import frc.team1699.subsystems.IntakeSubsystem;
+import frc.team1699.subsystems.PivotSubsystem;
 import frc.team1699.subsystems.ShooterSubsystem;
 import frc.team1699.subsystems.SwerveSubsystem;
 
@@ -26,6 +29,7 @@ public class RobotContainer {
   private IntakeSubsystem intake;
   private IndexerSubsystem indexer;
   private ShooterSubsystem shooter;
+  private PivotSubsystem pivot;
 
   Command drive;
   
@@ -35,11 +39,19 @@ public class RobotContainer {
     intake = new IntakeSubsystem();
     indexer = new IndexerSubsystem();
     shooter = new ShooterSubsystem();
+    pivot = new PivotSubsystem();
     drive = swerve.driveCommand(
     () -> MathUtil.applyDeadband(controller.getLeftY()*-1, Constants.LEFT_Y_DEADBAND), 
     () -> MathUtil.applyDeadband(controller.getLeftX()*-1, Constants.LEFT_X_DEADBAND), 
     () -> controller.getRightX()*-1);
-    configureBindings();
+
+    NamedCommands.registerCommand("aimHubPosition", pivot.setTestPositionTwo());
+    NamedCommands.registerCommand("intake", new IntakeCommand(intake, indexer));
+    NamedCommands.registerCommand("shoot", new ShootCommand(indexer, shooter, .5, .5));
+    NamedCommands.registerCommand("aimHeading", new AimHeadingToSpeaker(swerve));
+    NamedCommands.registerCommand("aimPivot", new AimPivotToSpeaker(pivot));
+
+    configureBindings();    
   }
 
   private void configureBindings() {
@@ -53,12 +65,19 @@ public class RobotContainer {
         .alongWith(indexer.stop()));
     
     controller.rightBumper()
-      .whileTrue(new ShootCommand(indexer, shooter, .5, .5));
+      .whileTrue(new ShootCommand(indexer, shooter, .65, .65));
 
     swerve.setDefaultCommand(drive);
+
+    controller.y().onTrue(Commands.runOnce(() -> {swerve.zeroGyro();}));
+
+    controller.a().onTrue(pivot.setHomePosition());
+    controller.b().onTrue(pivot.setTestPositionOne());
+    controller.x().onTrue(pivot.setTestPositionTwo());
+    controller.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return AutoBuilder.buildAuto("Distance Four Piece");
   }
 }

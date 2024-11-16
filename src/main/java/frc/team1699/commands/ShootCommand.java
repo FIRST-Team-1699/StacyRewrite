@@ -10,6 +10,7 @@ public class ShootCommand extends Command{
     private final ShooterSubsystem shooter;
     private final LoadedBeamBreak beamBreak;
     private final double topSpeed, bottomSpeed;
+    private double ticks;
 
     public ShootCommand(IndexerSubsystem indexer, ShooterSubsystem shooter, double topSpeed, double bottomSpeed) {
         this.indexer = indexer;
@@ -17,17 +18,23 @@ public class ShootCommand extends Command{
         this.beamBreak = LoadedBeamBreak.getInstance();
         this.topSpeed = topSpeed;
         this.bottomSpeed = bottomSpeed;
-        addRequirements(indexer,shooter);
+        addRequirements(indexer, shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.setMotorSpeed(topSpeed,bottomSpeed);
-        indexer.setMotorSpeed(.5);
+        shooter.setMotorSpeed(topSpeed, bottomSpeed);
+        ticks = 0;
     }
     
     @Override
-    public void execute() {}
+    public void execute() {
+        if(ticks > 25) {
+            indexer.setMotorSpeed(.5);
+        } else {
+            ticks++;
+        }
+    }
 
     @Override
     public boolean isFinished() {

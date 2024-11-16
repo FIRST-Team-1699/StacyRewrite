@@ -19,8 +19,8 @@ public class IntakeCommand extends Command {
 
     @Override
     public void initialize() {
-        intake.setMotorSpeed(.4);
-        indexer.setMotorSpeed(.4);
+        intake.setMotorSpeed(.6);
+        indexer.setMotorSpeed(.6);
     }
     
     @Override
