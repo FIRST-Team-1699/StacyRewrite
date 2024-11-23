@@ -11,6 +11,7 @@ import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class PivotSubsystem extends SubsystemBase {
     private CANSparkMax coolMotor;
@@ -58,5 +59,9 @@ public class PivotSubsystem extends SubsystemBase {
 
     public Command setHomePosition() {
         return runOnce(() -> {setpoint = 0;});
+    }
+
+    public Command waitUntilAimed() {
+        return new WaitUntilCommand(() -> {return Math.abs(Math.abs(setpoint) - Math.abs(pivotEncoder.getPosition())) <= 1.5;});
     }
 }

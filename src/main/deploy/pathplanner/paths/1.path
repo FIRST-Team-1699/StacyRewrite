@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.86,
-        "y": 6.7
+        "x": 1.4,
+        "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.86,
-        "y": 6.7
+        "x": 2.171922058129831,
+        "y": 6.875285750571502
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.8,
-        "y": 5.790485866686019
+        "x": 2.7511687455807343,
+        "y": 7.044463818657367
       },
       "prevControl": {
-        "x": 6.848397256794513,
-        "y": 5.951739903479806
+        "x": 2.72566561001513,
+        "y": 7.077936684087223
       },
       "nextControl": {
-        "x": 8.815551433988428,
-        "y": 5.618395391462378
+        "x": 2.8990839963661905,
+        "y": 6.850325052001455
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.913240683624225,
-        "y": 5.541275082550166
+        "x": 1.4,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 7.187035088355892,
-        "y": 6.054356108712218
+        "x": 1.9130810261620521,
+        "y": 5.778529699916543
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Distance Four Piece",
+  "folder": "Cool Epic Humble",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

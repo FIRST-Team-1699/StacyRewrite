@@ -3,48 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.86,
-        "y": 6.7
+        "x": 1.4,
+        "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.86,
-        "y": 6.7
+        "x": 1.878732900322944,
+        "y": 5.55593454044051
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.8,
-        "y": 5.790485866686019
+        "x": 8.011404851638531,
+        "y": 7.405007242446917
       },
       "prevControl": {
-        "x": 6.848397256794513,
-        "y": 5.951739903479806
+        "x": 7.322159064166869,
+        "y": 7.306543558522394
       },
       "nextControl": {
-        "x": 8.815551433988428,
-        "y": 5.618395391462378
+        "x": 8.399682384950355,
+        "y": 7.4604754614914635
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.913240683624225,
-        "y": 5.541275082550166
+        "x": 5.034610429581219,
+        "y": 6.119993501248263
       },
       "prevControl": {
-        "x": 7.187035088355892,
-        "y": 6.054356108712218
+        "x": 7.475212067541252,
+        "y": 7.081442631353732
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 13.202844639444875,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -54,12 +60,12 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0,
+    "velocity": 0.0,
+    "rotation": 1.0416266760100943,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Distance Four Piece",
+  "folder": "Cool Epic Humble",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

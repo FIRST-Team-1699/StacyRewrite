@@ -3,8 +3,10 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "Cool Epic Humble",
+    "Distance Four Piece",
     "Four Piece",
-    "Distance Four Piece"
+    "NonChilant"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

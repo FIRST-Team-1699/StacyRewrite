@@ -7,8 +7,12 @@ package frc.robot;
 import java.io.File;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -47,10 +51,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("aimHubPosition", pivot.setTestPositionTwo());
     NamedCommands.registerCommand("intake", new IntakeCommand(intake, indexer));
-    NamedCommands.registerCommand("shoot", new ShootCommand(indexer, shooter, .5, .5));
+    NamedCommands.registerCommand("shoot", new ShootCommand(indexer, shooter, .4, .4));
+    NamedCommands.registerCommand("shootHard", new ShootCommand(indexer, shooter, .7, .7));
     NamedCommands.registerCommand("aimHeading", new AimHeadingToSpeaker(swerve));
     NamedCommands.registerCommand("aimPivot", new AimPivotToSpeaker(pivot));
-
+    NamedCommands.registerCommand("waitUntilPivoted", pivot.waitUntilAimed());
+    
     configureBindings();    
   }
 
@@ -78,6 +84,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return AutoBuilder.buildAuto("Distance Four Piece");
+    // return AutoBuilder.buildAuto("Distance Four Piece");
+    // return AutoBuilder.buildAuto("Cool Epic Humble Auto");
+    return AutoBuilder.buildAuto("NonChilant Auto");
   }
 }
