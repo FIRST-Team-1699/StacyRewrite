@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.team1699.commands.AbsoluteFieldDrive;
 import frc.team1699.commands.AimHeadingToSpeaker;
 import frc.team1699.commands.AimPivotToSpeaker;
 import frc.team1699.commands.IntakeCommand;
@@ -36,6 +37,10 @@ public class RobotContainer {
   private PivotSubsystem pivot;
 
   Command drive;
+  Command driveNorth;
+  Command driveSouth;
+  Command driveEast;
+  Command driveWest;
   
   public RobotContainer() {
     controller = new CommandXboxController(0);
@@ -45,9 +50,29 @@ public class RobotContainer {
     shooter = new ShooterSubsystem();
     pivot = new PivotSubsystem();
     drive = swerve.driveCommand(
-    () -> MathUtil.applyDeadband(controller.getLeftY()*-1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX()*-1, Constants.LEFT_X_DEADBAND), 
-    () -> controller.getRightX()*-1);
+    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND), 
+    () -> controller.getRightX() * -1);
+
+    driveNorth = new AbsoluteFieldDrive(swerve, 
+    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> 0);
+
+    driveSouth = new AbsoluteFieldDrive(swerve, 
+    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> 1);
+
+    driveEast = new AbsoluteFieldDrive(swerve, 
+    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> 1.5);
+
+    driveWest = new AbsoluteFieldDrive(swerve, 
+    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> 0.5);
 
     NamedCommands.registerCommand("aimHubPosition", pivot.setTestPositionTwo());
     NamedCommands.registerCommand("intake", new IntakeCommand(intake, indexer));
@@ -62,9 +87,11 @@ public class RobotContainer {
 
   private void configureBindings() {
     controller.rightTrigger()
+      .onTrue(pivot.setTestPositionTwo())
       .whileTrue(new IntakeCommand(intake, indexer));
     
     controller.leftTrigger()
+      .onTrue(pivot.setTestPositionTwo())
       .whileTrue(intake.reverse()
         .alongWith(indexer.reverse()))
       .onFalse(intake.stop()
@@ -73,6 +100,10 @@ public class RobotContainer {
     controller.rightBumper()
       .whileTrue(new ShootCommand(indexer, shooter, .65, .65));
 
+    controller.povUp().whileTrue(driveNorth);
+    controller.povDown().whileTrue(driveSouth);
+    controller.povRight().whileTrue(driveEast);
+    controller.povLeft().whileTrue(driveWest);
     swerve.setDefaultCommand(drive);
 
     controller.y().onTrue(Commands.runOnce(() -> {swerve.zeroGyro();}));
