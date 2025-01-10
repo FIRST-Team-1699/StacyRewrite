@@ -29,7 +29,8 @@ import frc.team1699.subsystems.ShooterSubsystem;
 import frc.team1699.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
-  private CommandXboxController controller;
+  private CommandXboxController driverController;
+  private CommandXboxController operatorController;
   private SwerveSubsystem swerve;
   private IntakeSubsystem intake;
   private IndexerSubsystem indexer;
@@ -43,38 +44,39 @@ public class RobotContainer {
   Command driveWest;
   
   public RobotContainer() {
-    controller = new CommandXboxController(0);
+    driverController = new CommandXboxController(0);
+    operatorController = new CommandXboxController(1);
     swerve = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
     intake = new IntakeSubsystem();
     indexer = new IndexerSubsystem();
     shooter = new ShooterSubsystem();
     pivot = new PivotSubsystem();
     drive = swerve.driveCommand(
-    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND), 
-    () -> controller.getRightX() * -1);
+    () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND), 
+    () -> driverController.getRightX() * -1);
 
     driveNorth = new AbsoluteFieldDrive(swerve, 
-    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
     () -> 0);
 
     driveSouth = new AbsoluteFieldDrive(swerve, 
-    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
     () -> 1);
 
     driveEast = new AbsoluteFieldDrive(swerve, 
-    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
     () -> 1.5);
 
     driveWest = new AbsoluteFieldDrive(swerve, 
-    () -> MathUtil.applyDeadband(controller.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
-    () -> MathUtil.applyDeadband(controller.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
+    () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
+    () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND),
     () -> 0.5);
 
-    NamedCommands.registerCommand("aimHubPosition", pivot.setTestPositionTwo());
+    NamedCommands.registerCommand("aimHubPosition", pivot.setIntakePosition());
     NamedCommands.registerCommand("intake", new IntakeCommand(intake, indexer));
     NamedCommands.registerCommand("shoot", new ShootCommand(indexer, shooter, .4, .4));
     NamedCommands.registerCommand("shootHard", new ShootCommand(indexer, shooter, .7, .7));
@@ -85,33 +87,49 @@ public class RobotContainer {
     configureBindings();    
   }
 
+  /**
+   * Operator Controls
+   * RIGHT TRIGGER HOLD = INTAKE
+   * LEFT TRIGGER HOLD = OUTTAKE
+   * RIGHT BUMPER HOLD = SHOOT
+   * LEFT BUMPER HOLD = AIM
+   * B = PIVOT TO LOWEST POSSIBLE POSITION
+   * A = PIVOT TO AMP
+   * X = PIVOT TO POSITION WHICH IS HOPEFULLY SUBWOOFER
+   * 
+   * Driver Controls
+   * NORMAL DRIVE CONTROLS
+   * D PAD = DO CARDINAL DIRECTIONS
+   * Y = RESET HEADING
+   */
   private void configureBindings() {
-    controller.rightTrigger()
-      .onTrue(pivot.setTestPositionTwo())
+    operatorController.rightTrigger()
+      .onTrue(pivot.setIntakePosition())
       .whileTrue(new IntakeCommand(intake, indexer));
     
-    controller.leftTrigger()
-      .onTrue(pivot.setTestPositionTwo())
+    operatorController.leftTrigger()
+      .onTrue(pivot.setIntakePosition())
       .whileTrue(intake.reverse()
         .alongWith(indexer.reverse()))
       .onFalse(intake.stop()
         .alongWith(indexer.stop()));
     
-    controller.rightBumper()
+    operatorController.rightBumper()
       .whileTrue(new ShootCommand(indexer, shooter, .65, .65));
 
-    controller.povUp().whileTrue(driveNorth);
-    controller.povDown().whileTrue(driveSouth);
-    controller.povRight().whileTrue(driveEast);
-    controller.povLeft().whileTrue(driveWest);
+    driverController.povUp().whileTrue(driveNorth);
+    driverController.povDown().whileTrue(driveSouth);
+    driverController.povRight().whileTrue(driveEast);
+    driverController.povLeft().whileTrue(driveWest);
+
     swerve.setDefaultCommand(drive);
 
-    controller.y().onTrue(Commands.runOnce(() -> {swerve.zeroGyro();}));
+    driverController.y().onTrue(Commands.runOnce(() -> {swerve.zeroGyro();}));
 
-    controller.a().onTrue(pivot.setHomePosition());
-    controller.b().onTrue(pivot.setTestPositionOne());
-    controller.x().onTrue(pivot.setTestPositionTwo());
-    controller.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
+    operatorController.b().onTrue(pivot.setHomePosition());
+    operatorController.a().onTrue(pivot.setAmpPosition());
+    operatorController.x().onTrue(pivot.setIntakePosition());
+    operatorController.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
   }
 
   public Command getAutonomousCommand() {

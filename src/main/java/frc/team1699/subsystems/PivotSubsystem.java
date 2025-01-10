@@ -49,11 +49,11 @@ public class PivotSubsystem extends SubsystemBase {
         this.setpoint = MathUtil.clamp(setpoint, 0, 50);
     }
 
-    public Command setTestPositionOne() {
-        return runOnce(() -> {setpoint = 15;});
+    public Command setAmpPosition() {
+        return runOnce(() -> {setpoint = 45;});
     }
 
-    public Command setTestPositionTwo() {
+    public Command setIntakePosition() {
         return runOnce(() -> {setpoint = 30;});
     }
 
