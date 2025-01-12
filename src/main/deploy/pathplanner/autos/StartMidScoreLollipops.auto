@@ -1,0 +1,211 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 7.24,
+      "y": 4.02
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScorePreload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAmpPosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "waitUntilPivoted"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "IntakeTopLollipop"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aimIntakePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreTopLollipop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAmpPosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "waitUntilPivoted"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "IntakeMidLollipop"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aimIntakePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreMidLollipop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAmpPosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "waitUntilPivoted"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "IntakeBotLollipop"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aimIntakePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreBotLollipop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAmpPosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "waitUntilPivoted"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

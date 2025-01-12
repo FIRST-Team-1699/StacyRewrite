@@ -1,43 +1,43 @@
 {
-  "version": "2025.0",
+  "version": 1.0,
   "waypoints": [
     {
       "anchor": {
-        "x": 1.39,
-        "y": 5.56
+        "x": 6.09,
+        "y": 4.02
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3899999999999997,
-        "y": 5.56
+        "x": 6.4639176147761965,
+        "y": 5.1399888130724385
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.65,
-        "y": 5.56
+        "x": 5.65,
+        "y": 5.6
       },
       "prevControl": {
-        "x": 2.65,
-        "y": 5.56
+        "x": 6.410548381506905,
+        "y": 5.558925960256619
       },
       "nextControl": {
-        "x": 4.65,
-        "y": 5.56
+        "x": 4.760378465300759,
+        "y": 5.648044741348874
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.39,
-        "y": 5.56
+        "x": 1.18,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 3.0321740629195544,
-        "y": 5.554703000834572
+        "x": 2.874668174917746,
+        "y": 5.562387023164029
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,25 +46,23 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
-    "nominalVoltage": 12.0,
-    "unlimited": false
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
-  "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+  "folder": "Start Mid Score Lollipops",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

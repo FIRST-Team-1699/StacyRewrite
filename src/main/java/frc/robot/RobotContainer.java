@@ -5,18 +5,23 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.Map;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathConstraints;
+///mport com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
+//import edu.wpi.first.math.geometry.Pose2d;
+//import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.team1699.LoadedBeamBreak;
 import frc.team1699.commands.AbsoluteFieldDrive;
 import frc.team1699.commands.AimHeadingToSpeaker;
 import frc.team1699.commands.AimPivotToSpeaker;
@@ -27,6 +32,7 @@ import frc.team1699.subsystems.IntakeSubsystem;
 import frc.team1699.subsystems.PivotSubsystem;
 import frc.team1699.subsystems.ShooterSubsystem;
 import frc.team1699.subsystems.SwerveSubsystem;
+import frc.team1699.subsystems.PivotSubsystem.PivotPosition;
 
 public class RobotContainer {
   private CommandXboxController driverController;
@@ -77,12 +83,15 @@ public class RobotContainer {
     () -> 0.5);
 
     NamedCommands.registerCommand("aimHubPosition", pivot.setIntakePosition());
+    NamedCommands.registerCommand("aimIntakePosition", pivot.setIntakePosition());
     NamedCommands.registerCommand("intake", new IntakeCommand(intake, indexer));
     NamedCommands.registerCommand("shoot", new ShootCommand(indexer, shooter, .4, .4));
     NamedCommands.registerCommand("shootHard", new ShootCommand(indexer, shooter, .7, .7));
     NamedCommands.registerCommand("aimHeading", new AimHeadingToSpeaker(swerve));
     NamedCommands.registerCommand("aimPivot", new AimPivotToSpeaker(pivot));
     NamedCommands.registerCommand("waitUntilPivoted", pivot.waitUntilAimed());
+    NamedCommands.registerCommand("aimAmpPosition", pivot.setAmpPosition());
+    NamedCommands.registerCommand("shootAmp", new ShootCommand(indexer, shooter, 0.2, 0.05));
     
     configureBindings();    
   }
@@ -114,9 +123,20 @@ public class RobotContainer {
       .onFalse(intake.stop()
         .alongWith(indexer.stop()));
     
-    operatorController.rightBumper()
-      .whileTrue(new ShootCommand(indexer, shooter, .65, .65));
+    
+    // operatorController.rightBumper()
+    //   .whileTrue(new ShootCommand(indexer, shooter, .65, .65)
+    //   .onlyIf(() -> pivot.getCurrentPosition() == PivotPosition.OTHER))
+    //   .whileTrue(new ShootCommand(indexer, shooter, 0.1, 0.1)
+    //   .onlyIf(() -> pivot.getCurrentPosition() == PivotPosition.AMP));
+    operatorController.rightBumper().whileTrue(
+      new SelectCommand<>(
+          Map.of(
+            PivotPosition.AMP, new ShootCommand(indexer, shooter, 0.2, 0.05), 
+            PivotPosition.OTHER, new ShootCommand(indexer, shooter, .65, .65)), 
+          pivot::getCurrentPosition));
 
+    //changed shoot command to onTrue instead of whileTrue, then changed back
     driverController.povUp().whileTrue(driveNorth);
     driverController.povDown().whileTrue(driveSouth);
     driverController.povRight().whileTrue(driveEast);
@@ -127,14 +147,26 @@ public class RobotContainer {
     driverController.y().onTrue(Commands.runOnce(() -> {swerve.zeroGyro();}));
 
     operatorController.b().onTrue(pivot.setHomePosition());
-    operatorController.a().onTrue(pivot.setAmpPosition());
+    operatorController.a()
+      .onTrue(pivot.setAmpPosition());
+      //Changed shooter to shoot after lineing up
     operatorController.x().onTrue(pivot.setIntakePosition());
+    operatorController.y().whileTrue(pivot.setIntakePosition()
+      .alongWith(shooter.setMotorSpeedCommand(-.3))
+      .alongWith(indexer.reverse())
+      .until(LoadedBeamBreak.getInstance().loaded())
+      .andThen(pivot.setIntakePosition()
+      .alongWith(shooter.setMotorSpeedCommand(-.3))
+      .alongWith(indexer.reverse()))
+      .until(() -> !LoadedBeamBreak.getInstance().loaded().getAsBoolean())
+      .andThen(new IntakeCommand(intake, indexer)))
+      .onFalse(shooter.setMotorSpeedCommand(0));
     operatorController.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
   }
 
   public Command getAutonomousCommand() {
     // return AutoBuilder.buildAuto("Distance Four Piece");
     // return AutoBuilder.buildAuto("Cool Epic Humble Auto");
-    return AutoBuilder.buildAuto("NonChilant Auto");
+    return AutoBuilder.buildAuto("StartMidScoreLollipops");
   }
 }

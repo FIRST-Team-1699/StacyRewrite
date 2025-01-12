@@ -1,43 +1,43 @@
 {
-  "version": "2025.0",
+  "version": 1.0,
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.5
+        "x": 3.546,
+        "y": 5.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9376348662607235,
-        "y": 6.35111108060054
+        "x": 2.0735592248285037,
+        "y": 5.113786506935183
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6032534947952777,
-        "y": 6.757878020260545
+        "x": 2.146327011795348,
+        "y": 4.4057046969192335
       },
       "prevControl": {
-        "x": 2.0947948202202706,
-        "y": 5.89812062507008
+        "x": 2.1188954113718013,
+        "y": 4.673162801048818
       },
       "nextControl": {
-        "x": 2.959042011295434,
-        "y": 7.359484057251718
+        "x": 2.2050697410876046,
+        "y": 3.832963086319733
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.5
+        "x": 1.059586519888604,
+        "y": 3.935762862581182
       },
       "prevControl": {
-        "x": 1.6471637122177984,
-        "y": 5.462448710238964
+        "x": 1.309586519888604,
+        "y": 3.935762862581182
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,30 +46,29 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.95,
-      "rotationDegrees": 42.0
+      "waypointRelativePos": 0.7,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
-    "nominalVoltage": 12.0,
-    "unlimited": false
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
-  "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+  "folder": "Start Mid Score Lollipops",
+  "previewStartingState": {
+    "rotation": -60.0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

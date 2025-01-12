@@ -1,27 +1,27 @@
 {
-  "version": "2025.0",
+  "version": 1.0,
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.5
+        "x": 1.08,
+        "y": 4.048
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.692556412139851,
-        "y": 5.389661950495073
+        "x": 1.0889578845347323,
+        "y": 4.919703578226477
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 5.4
+        "x": 2.3,
+        "y": 4.05
       },
       "prevControl": {
-        "x": 3.137754543977556,
-        "y": 5.9367911726814455
+        "x": 2.1781256693640407,
+        "y": 4.995131989841798
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +30,23 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
-    "nominalVoltage": 12.0,
-    "unlimited": false
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
-  "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+  "folder": "Start Mid Score Lollipops",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

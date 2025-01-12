@@ -2,6 +2,7 @@ package frc.team1699.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase{
@@ -20,5 +21,9 @@ public class ShooterSubsystem extends SubsystemBase{
     public void setMotorSpeed(double topSpeed, double bottomSpeed) {
         topMotor.set(topSpeed);
         bottomMotor.set(bottomSpeed);
+    }
+
+    public Command setMotorSpeedCommand(double speed) {
+        return runOnce(() -> setMotorSpeed(speed));
     }
 }

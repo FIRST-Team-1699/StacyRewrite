@@ -3,10 +3,10 @@ package frc.robot;
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.util.Units;
-
+    
 public class Constants {
     public static final double MAX_SPEED = Units.feetToMeters(14.0);
-
+//change speed from 14 to 10
     
     //very useful line of code
     public static final boolean isCharlieAGoodTeacher = false;

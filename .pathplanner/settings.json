@@ -6,10 +6,11 @@
     "Cool Epic Humble",
     "Distance Four Piece",
     "Four Piece",
+    "Start Mid Score Lollipops",
     "NonChilant"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 3.0,
+  "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

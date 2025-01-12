@@ -20,19 +20,19 @@ public class IndexerSubsystem extends SubsystemBase{
     }
 
     public Command feed(){
-        return run (()-> {
+        return runOnce(()-> {
             setMotorSpeed(.75);
         });
     }
 
     public Command stop(){
-        return run(() -> {
+        return runOnce(() -> {
             setMotorSpeed(0);
         });
     }
 
     public Command reverse(){
-        return run (() -> {
+        return runOnce(() -> {
             setMotorSpeed(-.75);
         });
     }

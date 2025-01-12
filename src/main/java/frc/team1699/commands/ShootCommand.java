@@ -23,6 +23,7 @@ public class ShootCommand extends Command{
 
     @Override
     public void initialize() {
+        System.out.println("Hellow");
         shooter.setMotorSpeed(topSpeed, bottomSpeed);
         ticks = 0;
     }
@@ -34,6 +35,7 @@ public class ShootCommand extends Command{
         } else {
             ticks++;
         }
+        System.out.println(ticks);
     }
 
     @Override
@@ -42,11 +44,16 @@ public class ShootCommand extends Command{
             return true;
 
         }
-        return false;
+        System.out.println("done");
+                return false;
+
     }
 
     @Override
+
     public void end(boolean interrupted) {
+        System.out.println("done");
+
         indexer.setMotorSpeed(0);
         shooter.setMotorSpeed(0);
     }

@@ -18,6 +18,7 @@ public class PivotSubsystem extends SubsystemBase {
     private RelativeEncoder pivotEncoder;
     private SparkPIDController pivotController;
     private double setpoint;
+    private PivotPosition currentPosition;
 
     public PivotSubsystem() {
         coolMotor = new CANSparkMax(11, MotorType.kBrushless);
@@ -35,6 +36,7 @@ public class PivotSubsystem extends SubsystemBase {
         pivotController.setSmartMotionMaxAccel(5700, 0);
         pivotController.setSmartMotionAllowedClosedLoopError(1.0, 0);
         setpoint = 0;
+        currentPosition = PivotPosition.OTHER;
     }
 
     public void periodic() {
@@ -45,23 +47,35 @@ public class PivotSubsystem extends SubsystemBase {
         return Math.abs(pivotEncoder.getPosition() - setpoint) <= 1;
     }
 
+    public PivotPosition getCurrentPosition() {
+        return currentPosition;
+    }
+
     public void setSetpoint(double setpoint) {
-        this.setpoint = MathUtil.clamp(setpoint, 0, 50);
+        this.setpoint = MathUtil.clamp(setpoint, 0, 80);
     }
 
     public Command setAmpPosition() {
-        return runOnce(() -> {setpoint = 45;});
+        return runOnce(() -> {setpoint = 80;
+        currentPosition = PivotPosition.AMP;});
     }
 
     public Command setIntakePosition() {
-        return runOnce(() -> {setpoint = 30;});
+        return runOnce(() -> {setpoint = 30;
+        currentPosition = PivotPosition.OTHER;});
     }
 
     public Command setHomePosition() {
-        return runOnce(() -> {setpoint = 0;});
+        return runOnce(() -> {setpoint = 0;
+        currentPosition = PivotPosition.OTHER;});
     }
 
     public Command waitUntilAimed() {
         return new WaitUntilCommand(() -> {return Math.abs(Math.abs(setpoint) - Math.abs(pivotEncoder.getPosition())) <= 1.5;});
+    }
+
+    public enum PivotPosition {
+        AMP,
+        OTHER
     }
 }
