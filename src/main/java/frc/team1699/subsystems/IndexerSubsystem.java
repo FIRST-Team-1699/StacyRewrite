@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.team1699.LoadedBeamBreak;
 
 public class IndexerSubsystem extends SubsystemBase{
     private CANSparkMax motor;
@@ -35,5 +37,13 @@ public class IndexerSubsystem extends SubsystemBase{
         return runOnce(() -> {
             setMotorSpeed(-.75);
         });
+    }
+
+    public Command waitUntilLoaded(){
+        return new WaitUntilCommand(LoadedBeamBreak.getInstance().loaded());
+    }
+
+    public Command waitUntilUnloaded(){
+        return new WaitUntilCommand(() -> !LoadedBeamBreak.getInstance().loaded().getAsBoolean());
     }
 }

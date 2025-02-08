@@ -151,17 +151,19 @@ public class RobotContainer {
       .onTrue(pivot.setAmpPosition());
       //Changed shooter to shoot after lineing up
     operatorController.x().onTrue(pivot.setIntakePosition());
-    operatorController.y().whileTrue(pivot.setIntakePosition()
-      .alongWith(shooter.setMotorSpeedCommand(-.3))
-      .alongWith(indexer.reverse())
-      .until(LoadedBeamBreak.getInstance().loaded())
-      .andThen(pivot.setIntakePosition()
-      .alongWith(shooter.setMotorSpeedCommand(-.3))
-      .alongWith(indexer.reverse()))
-      .until(() -> !LoadedBeamBreak.getInstance().loaded().getAsBoolean())
+    
+    operatorController.y().whileTrue((
+      pivot.setIntakePosition()
+        .alongWith(shooter.setMotorSpeedCommand(-.3)
+        .alongWith(indexer.reverse())))
+      .andThen(indexer.waitUntilLoaded())
+      .andThen(shooter.setMotorSpeedCommand(-.3)
+        .alongWith(indexer.reverse()))
+      .andThen(indexer.waitUntilUnloaded())
       .andThen(new IntakeCommand(intake, indexer)))
       .onFalse(shooter.setMotorSpeedCommand(0));
-    operatorController.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
+    
+      operatorController.leftBumper().whileTrue(new AimHeadingToSpeaker(swerve).alongWith(new AimPivotToSpeaker(pivot)));
   }
 
   public Command getAutonomousCommand() {
