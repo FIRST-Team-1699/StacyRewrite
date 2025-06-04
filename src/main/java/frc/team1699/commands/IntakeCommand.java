@@ -28,6 +28,7 @@ public class IntakeCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        // TODO : IF INTAKIE NOT INTAKING, CLEAN TOP BEAM BREAK
         if(beamBreak.loaded().getAsBoolean()) {
             return true;
         }

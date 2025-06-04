@@ -56,14 +56,20 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public Command setAmpPosition() {
-        return runOnce(() -> {setpoint = 80;
+        return runOnce(() -> {setpoint = 75;
         currentPosition = PivotPosition.AMP;});
     }
 
     public Command setIntakePosition() {
+        //Changed from 30 degrees to higher for L4
         return runOnce(() -> {setpoint = 30;
         currentPosition = PivotPosition.OTHER;});
     }
+        //Shooting angle for L4 Reefscape shot
+    // public Command setL4Position() {
+    //     return runOnce(() -> {setpoint = 69;
+    //     currentPosition = PivotPosition.OTHER;});
+    // }
 
     public Command setHomePosition() {
         return runOnce(() -> {setpoint = 0;

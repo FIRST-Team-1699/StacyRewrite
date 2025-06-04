@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": []
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScorePreload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAmpPosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "waitUntilPivoted"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LowerAutoCoralStation1"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

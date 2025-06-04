@@ -58,9 +58,10 @@ public class RobotContainer {
     shooter = new ShooterSubsystem();
     pivot = new PivotSubsystem();
     drive = swerve.driveCommand(
+      //To change translation and turning speed
     () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
     () -> MathUtil.applyDeadband(driverController.getLeftX() * -1, Constants.LEFT_X_DEADBAND), 
-    () -> driverController.getRightX() * -1);
+    () -> driverController.getRightX() * -.8);
 
     driveNorth = new AbsoluteFieldDrive(swerve, 
     () -> MathUtil.applyDeadband(driverController.getLeftY() * -1, Constants.LEFT_Y_DEADBAND), 
@@ -105,6 +106,7 @@ public class RobotContainer {
    * B = PIVOT TO LOWEST POSSIBLE POSITION
    * A = PIVOT TO AMP
    * X = PIVOT TO POSITION WHICH IS HOPEFULLY SUBWOOFER
+   * Y = Source Intake
    * 
    * Driver Controls
    * NORMAL DRIVE CONTROLS
@@ -132,11 +134,15 @@ public class RobotContainer {
     operatorController.rightBumper().whileTrue(
       new SelectCommand<>(
           Map.of(
-            PivotPosition.AMP, new ShootCommand(indexer, shooter, 0.2, 0.05), 
-            PivotPosition.OTHER, new ShootCommand(indexer, shooter, .65, .65)), 
+            // Charlies changes top speed of amp for trying to hit level 3 (.4 worked)
+            // TOPSPEED .15, BOTTOM .15
+            PivotPosition.AMP, new ShootCommand(indexer, shooter, 0.15, 0.15), 
+            // Charlies changed normal shoot speed from .65 to try L4 mortar shot
+            // TOP .215, BOTTOM .215
+            PivotPosition.OTHER, new ShootCommand(indexer, shooter, .215, .215)), 
           pivot::getCurrentPosition));
 
-    //changed shoot command to onTrue instead of whileTrue, then changed back
+    // changed shoot command to onTrue instead of whileTrue, then changed back
     driverController.povUp().whileTrue(driveNorth);
     driverController.povDown().whileTrue(driveSouth);
     driverController.povRight().whileTrue(driveEast);
@@ -150,14 +156,14 @@ public class RobotContainer {
     operatorController.a()
       .onTrue(pivot.setAmpPosition());
       //Changed shooter to shoot after lineing up
-    operatorController.x().onTrue(pivot.setIntakePosition());
-    
+    // operatorController.x().onTrue(pivot.setL4Position());
+    // Changed motor speed of Coral Station intake to rip up notes less(from .3 to .2)
     operatorController.y().whileTrue((
       pivot.setIntakePosition()
-        .alongWith(shooter.setMotorSpeedCommand(-.3)
+        .alongWith(shooter.setMotorSpeedCommand(-.2)
         .alongWith(indexer.reverse())))
       .andThen(indexer.waitUntilLoaded())
-      .andThen(shooter.setMotorSpeedCommand(-.3)
+      .andThen(shooter.setMotorSpeedCommand(-.2)
         .alongWith(indexer.reverse()))
       .andThen(indexer.waitUntilUnloaded())
       .andThen(new IntakeCommand(intake, indexer)))
